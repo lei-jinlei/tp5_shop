@@ -1,6 +1,8 @@
 ThinkPHP 5.0
 ===============
 
+本项目是学习和测试使用的，基于THINKPHP5来实现的O2O商城系统。
+
 [![Total Downloads](https://poser.pugx.org/topthink/think/downloads)](https://packagist.org/packages/topthink/think)
 [![Latest Stable Version](https://poser.pugx.org/topthink/think/v/stable)](https://packagist.org/packages/topthink/think)
 [![Latest Unstable Version](https://poser.pugx.org/topthink/think/v/unstable)](https://packagist.org/packages/topthink/think)
