@@ -7,7 +7,7 @@ class Index extends Controller
     
     public function index()
     {
-    	$this->assign('title','title');
+    	$this->assign('title','首页');
     	$this->assign('controler','controler');
     	$city['name'] = 'city.name';
     	$this->assign('city',$city);
@@ -16,7 +16,6 @@ class Index extends Controller
     	$this->assign('cats','');
     	$this->assign('meishicates','');
     	$this->assign('datas','');
-
-      	$this->fetch();
+      	return $this->fetch();
     }
 }
