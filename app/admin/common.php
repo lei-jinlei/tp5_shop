@@ -1,1 +1,7 @@
 <?php
+
+
+function pagination()
+{
+	
+}

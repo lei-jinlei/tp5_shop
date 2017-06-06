@@ -149,15 +149,25 @@ $(function(){
     }, "身份证号码不正确"); 
 
     // IP地址验证   
-    jQuery.validator.addMethod("ip", function(value, element) {
+    jQuery.validator.addMethod("ip", function(value, element) {    
       return this.optional(element) || /^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))$/.test(value);    
     }, "请填写正确的IP地址");
    
     // 字符验证，只能包含中文、英文、数字、下划线等字符。    
-    jQuery.validator.addMethod("stringCheck", function(value, element) {
+    jQuery.validator.addMethod("stringCheck", function(value, element) {       
          return this.optional(element) || /^[a-zA-Z0-9\u4e00-\u9fa5-_]+$/.test(value);       
-    }, "只能包含中文、英文、数字、下划线等字符");
+    }, "只能包含中文、英文、数字、下划线等字符");   
    
+    // 匹配english  
+    jQuery.validator.addMethod("isEnglish", function(value, element) {       
+         return this.optional(element) || /^[A-Za-z]+$/.test(value);       
+    }, "必须输入英文");   
+    
+    // 匹配汉字  
+    jQuery.validator.addMethod("isChinese", function(value, element) {       
+         return this.optional(element) || /^[\u4e00-\u9fa5]+$/.test(value);       
+    }, "只能输入汉字");   
+    
     // 匹配中文(包括汉字和字符) 
     jQuery.validator.addMethod("isChineseChar", function(value, element) {       
          return this.optional(element) || /^[\u0391-\uFFE5]+$/.test(value);       
