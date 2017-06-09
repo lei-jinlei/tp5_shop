@@ -10,8 +10,6 @@ class category extends Controller
 	public function index()
 	{
 		$categorys = model('Category')->getFirstCategorys();
-dump(time());
-dump(date('Y-m-d',time()));
         return $this->fetch('',[
             'categorys' => $categorys,
         ]);
@@ -69,7 +67,7 @@ dump(date('Y-m-d',time()));
         /**
      * 保存指定资源
      *
-     * 
+     *
      * @return \think\Response
      */
     public function save(Request $request)
@@ -88,4 +86,3 @@ dump(date('Y-m-d',time()));
     	}
     }
 }
-
