@@ -9,8 +9,10 @@ class category extends Controller
 
 	public function index()
 	{
+
         $parentId = input('get.parent_id', 0, 'intval');
 		$categorys = model('Category')->getFirstCategorys($parentId);
+
         return $this->fetch('',[
             'categorys' => $categorys,
         ]);
@@ -67,8 +69,6 @@ class category extends Controller
 
         /**
      * 保存指定资源
-     *
-     * 
      * @return \think\Response
      */
     public function save(Request $request)
@@ -87,4 +87,3 @@ class category extends Controller
     	}
     }
 }
-
