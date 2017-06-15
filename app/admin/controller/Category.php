@@ -9,9 +9,8 @@ class category extends Controller
 
 	public function index()
 	{
-		$categorys = model('Category')->getFirstCategorys();
-dump(time());
-dump(date('Y-m-d',time()));
+        $parentId = input('get.parent_id', 0, 'intval');
+		$categorys = model('Category')->getFirstCategorys($parentId);
         return $this->fetch('',[
             'categorys' => $categorys,
         ]);
@@ -25,7 +24,7 @@ dump(date('Y-m-d',time()));
      */
     public function edit($id)
     {
-        //
+        $this->fetch();
     }
 
 

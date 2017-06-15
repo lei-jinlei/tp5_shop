@@ -29,11 +29,10 @@ class Category extends Model
 			->select();
 	}
 
-
-	public function getFirstCategorys()
+	public function getFirstCategorys($parentId = 0)
 	{
 		$data = [
-			'parent_id' => 0,
+			'parent_id' => $parentId,
 			'status' => ['neq', -1],
 		];
 
@@ -43,7 +42,7 @@ class Category extends Model
 
 		$result = $this->where($data)
 			->order($order)
-			->select();
+			->paginate(2);
 
 		return $result;
 	}
