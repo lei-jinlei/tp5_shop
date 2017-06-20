@@ -42,7 +42,7 @@ class Category extends Model
 
 		$result = $this->where($data)
 			->order($order)
-			->paginate(2);
+			->paginate();
 
 		return $result;
 	}

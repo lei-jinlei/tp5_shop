@@ -6,12 +6,16 @@ use think\Request;
 
 class category extends Controller
 {
+    public function _initialize()
+    {
+        $this->obj = model('Category');
+    }
 
 	public function index()
 	{
 
         $parentId = input('get.parent_id', 0, 'intval');
-		$categorys = model('Category')->getFirstCategorys($parentId);
+		$categorys = $this->obj->getFirstCategorys($parentId);
 
         return $this->fetch('',[
             'categorys' => $categorys,
@@ -24,9 +28,18 @@ class category extends Controller
      * @param  int  $id
      * @return \think\Response
      */
-    public function edit($id)
+    public function edit($id = 0)
     {
-        $this->fetch();
+        if ($id < 1) {
+            $this->error('参数不合法');
+        }
+
+        $category = $this->obj->get($id);
+        $categorys = $this->obj->getNormalFirstCategory();
+        return $this->fetch('',[
+            'category' => $category,
+            'categorys' => $categorys,
+        ]);
     }
 
 
@@ -38,22 +51,10 @@ class category extends Controller
      */
     public function add(Request $request)
     {
-        $categorys = model('Category')->getNormalFirstCategory();
+        $categorys = $this->obj->getNormalFirstCategory();
         return $this->fetch('',[
             'categorys' => $categorys,
         ]);
-    }
-
-    /**
-     * 保存更新的资源
-     *
-     * @param  \think\Request  $request
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
@@ -73,17 +74,38 @@ class category extends Controller
      */
     public function save(Request $request)
     {
+        /**
+         * 做下严格的判定
+         * @var [type]
+         */
+        if (!request()->post()) {
+            $this->error('请求失败');
+        }
         $data = input('post.');
         $validate = validate('Category');
         if (!$validate->scene('add')->check($data)) {
         	$this->error($validate->getError());
         }
+        if (!empty($data['id'])) {
+            return $this->update($data);
+        }
+
         // 把$data 提交给model层
-    	$res = model('Category')->add($data);
+    	$res = $this->obj->add($data);
     	if($res){
     		$this->success('新增成功');
     	}else{
     		$this->error('增加失败');
     	}
+    }
+
+    public function update($data)
+    {
+        $res = $this->obj->save($data,['id' => intval($data['id'])]);
+        if ($res) {
+            $this->success('更新成功');
+        }else{
+            $this->error('更新失败');
+        }
     }
 }
