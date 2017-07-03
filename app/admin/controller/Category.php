@@ -11,18 +11,17 @@ class category extends Controller
         $this->obj = model('Category');
     }
 
-	public function index()
-	{
-
+    public function index()
+    {
         $parentId = input('get.parent_id', 0, 'intval');
-		$categorys = $this->obj->getFirstCategorys($parentId);
+        $categorys = $this->obj->getFirstCategorys($parentId);
 
-        return $this->fetch('',[
+        return $this->fetch('', [
             'categorys' => $categorys,
         ]);
-	}
+    }
 
-	/**
+    /**
      * 显示编辑资源表单页.
      *
      * @param  int  $id
@@ -36,7 +35,7 @@ class category extends Controller
 
         $category = $this->obj->get($id);
         $categorys = $this->obj->getNormalFirstCategory();
-        return $this->fetch('',[
+        return $this->fetch('', [
             'category' => $category,
             'categorys' => $categorys,
         ]);
@@ -52,23 +51,12 @@ class category extends Controller
     public function add(Request $request)
     {
         $categorys = $this->obj->getNormalFirstCategory();
-        return $this->fetch('',[
+        return $this->fetch('', [
             'categorys' => $categorys,
         ]);
     }
 
     /**
-     * 删除指定资源
-     *
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function delete($id)
-    {
-        //
-    }
-
-        /**
      * 保存指定资源
      * @return \think\Response
      */
@@ -84,28 +72,38 @@ class category extends Controller
         $data = input('post.');
         $validate = validate('Category');
         if (!$validate->scene('add')->check($data)) {
-        	$this->error($validate->getError());
+            $this->error($validate->getError());
         }
         if (!empty($data['id'])) {
             return $this->update($data);
         }
 
         // 把$data 提交给model层
-    	$res = $this->obj->add($data);
-    	if($res){
-    		$this->success('新增成功');
-    	}else{
-    		$this->error('增加失败');
-    	}
+        $res = $this->obj->add($data);
+        if ($res) {
+            $this->success('新增成功');
+        } else {
+            $this->error('增加失败');
+        }
     }
 
     public function update($data)
     {
-        $res = $this->obj->save($data,['id' => intval($data['id'])]);
+        $res = $this->obj->save($data, ['id' => intval($data['id'])]);
         if ($res) {
             $this->success('更新成功');
-        }else{
+        } else {
             $this->error('更新失败');
+        }
+    }
+
+    public function listorder($id, $listorder)
+    {
+        $res = $this->obj->save(['listorder'=>$listorder], ['id'=>$id]);
+        if ($res) {
+            $this->result($_SERVER['HTTP_REFERER'], 1, 'success');
+        } else {
+            $this->result($_SERVER['HTTP_REFERER'], 0, '更新失败');
         }
     }
 }
